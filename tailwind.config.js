@@ -2,7 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        Gilda: ["Gilda Display", "serif"],
+        Barlow: ["Barlow", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
