@@ -4,7 +4,7 @@ import LoginInput from "./LoginInput";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../../components/Button";
 
-export default function LoginForm({ signUp }) {
+export default function LoginForm({ signUp, setIsOpen }) {
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -14,9 +14,11 @@ export default function LoginForm({ signUp }) {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    login(input).catch((err) => {
-      toast.error(err.response?.data.message);
-    });
+    login(input)
+      .then(setIsOpen(false))
+      .catch((err) => {
+        toast.error(err.response?.data.message);
+      });
   };
 
   return (
@@ -40,10 +42,7 @@ export default function LoginForm({ signUp }) {
           return setInput({ ...input, password: e.target.value });
         }}
       />
-      <button
-        type="submit"
-        className="bg-blue-500 text-white w-full rounded-md text-xl font-bold py-2.5"
-      >
+      <button className="bg-blue-500 text-white w-full rounded-md text-xl font-bold py-2.5">
         Log in
       </button>
     </form>

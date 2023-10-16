@@ -31,7 +31,7 @@ const validateRegister = (input) => {
   }
 };
 
-export default function RegisterForm({ logIn }) {
+export default function RegisterForm({ logIn, setIsOpen }) {
   const [input, setInput] = useState({
     firstName: "",
     lastName: "",
@@ -55,9 +55,11 @@ export default function RegisterForm({ logIn }) {
       return setError(validationError);
     }
     setError({});
-    register(input).catch((err) => {
-      toast.error(err.response?.data.message);
-    });
+    register(input)
+      .then(setIsOpen(false))
+      .catch((err) => {
+        toast.error(err.response?.data.message);
+      });
   };
   return (
     <form

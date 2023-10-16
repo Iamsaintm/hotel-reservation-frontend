@@ -4,7 +4,7 @@ import UserModal from "../features/auth/UserModal";
 
 export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenLogin, setIsOpenLogin] = useState(false);
+  const [activeForm, setActiveForm] = useState(null);
   const dropdownEl = useRef(null);
 
   const { logout, authUser } = useAuth();
@@ -13,21 +13,22 @@ export default function Dropdown() {
     const handleClickOutside = (e) => {
       if (!dropdownEl.current.contains(e.target)) {
         setIsOpen(false);
+        setActiveForm(null);
       }
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownEl}>
       <div>
         <UserModal
           setIsOpen={setIsOpen}
           isOpen={isOpen}
           authUser={authUser}
           logout={logout}
-          setIsOpenLogin={setIsOpenLogin}
-          isOpenLogin={isOpenLogin}
+          activeForm={activeForm}
+          setActiveForm={setActiveForm}
         />
       </div>
     </div>

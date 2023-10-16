@@ -1,23 +1,19 @@
-import { useState } from "react";
 import { Bar3, UserCircle } from "../../icon";
 import SignUpForm from "./RegisterForm";
 import LogInForm from "./LoginForm";
-import { useAuth } from "../../hooks/use-auth";
 import { Link } from "react-router-dom";
 
-export default function UserModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeForm, setActiveForm] = useState(null);
-
+export default function UserModal({
+  setIsOpen,
+  isOpen,
+  authUser,
+  logout,
+  activeForm,
+  setActiveForm,
+}) {
   const openForm = (formName) => {
     setActiveForm(formName);
   };
-
-  const closeUserModal = () => {
-    setIsOpen(false);
-  };
-
-  const { authUser, logout } = useAuth();
 
   return (
     <div>
@@ -61,9 +57,15 @@ export default function UserModal() {
           !authUser && (
             <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
               {activeForm === "signUp" ? (
-                <SignUpForm logIn={() => openForm("logIn")} />
+                <SignUpForm
+                  logIn={() => openForm("logIn")}
+                  setIsOpen={setIsOpen}
+                />
               ) : (
-                <LogInForm signUp={() => openForm("signUp")} />
+                <LogInForm
+                  signUp={() => openForm("signUp")}
+                  setIsOpen={setIsOpen}
+                />
               )}
             </div>
           )}
@@ -71,7 +73,10 @@ export default function UserModal() {
 
       {isOpen && authUser && (
         <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
-          <Link to={`/user/booking`}>
+          <Link
+            to={`/reservation/${authUser.id}`}
+            onClick={() => setIsOpen(false)}
+          >
             <div className="flex gap-4 p-2 cursor-pointer hover-bg-gray-100 rounded-xl justify-center">
               Reservation
             </div>
@@ -81,7 +86,7 @@ export default function UserModal() {
             className="flex gap-4 p-2 cursor-pointer hover-bg-gray-100 rounded-xl justify-center"
             onClick={() => {
               logout();
-              closeUserModal();
+              setIsOpen(false);
             }}
           >
             Log Out

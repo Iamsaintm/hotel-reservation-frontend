@@ -1,12 +1,13 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import Button from "../components/Button";
 
-function RoomPage() {
+export default function RoomPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [rooms, roomTypes] = location.state.roomData;
-  const { roomData, reservationData } = location.state;
-  if (!roomData) {
+  const reservationData = location.state.reservationData;
+
+  if (!roomTypes || !rooms) {
     return (
       <div>
         <h1>Room Page</h1>
@@ -15,36 +16,27 @@ function RoomPage() {
     );
   }
 
-  const roomTypesMap = roomTypes.reduce((acc, roomType) => {
-    acc[roomType.id] = roomType;
-    return acc;
-  }, {});
-
   const roomTypeCounts = rooms.reduce((acc, room) => {
-    const roomType = roomTypesMap[room.roomTypeId];
+    const roomType = roomTypes[room.roomTypeId];
     if (roomType) {
-      const { roomType: type, roomPrice, guestLimit } = roomType;
-      const key = `${type} - Price: ${roomPrice}, Guests Limit: ${guestLimit}`;
-      acc[key] = (acc[key] || 0) + 1;
+      const { roomType: type, roomPrice, roomImage } = roomType;
+      const key = `${type}`;
+      acc[key] = {
+        count: (acc[key] ? acc[key].count : 0) + 1,
+        roomPrice,
+        roomImage,
+      };
     }
     return acc;
   }, {});
 
   const handleButtonClick = (selectedRoomType) => {
     const selectedRoom = rooms.find((room) => {
-      const roomType = roomTypesMap[room.roomTypeId];
-      return (
-        roomType &&
-        `${roomType.roomType} - Price: ${roomType.roomPrice}, Guests Limit: ${roomType.guestLimit}` ===
-          selectedRoomType
-      );
+      const roomType = roomTypes[room.roomTypeId];
+      return roomType && roomType.roomType === selectedRoomType;
     });
 
     if (selectedRoom) {
-      selectedRoom.roomType = roomTypesMap[selectedRoom.roomTypeId].roomType;
-      selectedRoom.roomPrice = roomTypesMap[selectedRoom.roomTypeId].roomPrice;
-      selectedRoom.guestLimit =
-        roomTypesMap[selectedRoom.roomTypeId].guestLimit;
       navigate("/booking", {
         state: { roomData: selectedRoom, reservationData },
       });
@@ -55,11 +47,14 @@ function RoomPage() {
     <div>
       <h1>Room Page</h1>
       {Object.keys(roomTypeCounts).map((roomType, index) => {
-        if (roomTypeCounts[roomType] > 0) {
+        if (roomTypeCounts[roomType].count > 0) {
+          const roomInfo = roomTypeCounts[roomType];
           return (
             <div key={index}>
-              <p>{roomType}</p>
-              <p>Count: {roomTypeCounts[roomType]}</p>
+              <p>Room Type: {roomType}</p>
+              <p>Room Price: {roomInfo.roomPrice}</p>
+              <img src={roomInfo.roomImage} alt={roomType} />
+              <p>Count: {roomInfo.count}</p>
               <Button onClick={() => handleButtonClick(roomType)}>
                 Click it
               </Button>
@@ -68,11 +63,6 @@ function RoomPage() {
         }
         return null;
       })}
-      {Object.keys(roomTypeCounts).every(
-        (roomType) => roomTypeCounts[roomType] === 0
-      ) && <p>No room for {reservationData.guestLimit} people.</p>}
     </div>
   );
 }
-
-export default RoomPage;

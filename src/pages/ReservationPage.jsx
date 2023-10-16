@@ -12,12 +12,10 @@ export default function ReservationPage() {
 
   const handleClickCancel = async (bookingId) => {
     try {
-      if (bookingData) {
-        await axios.delete(`/user/booking/${bookingId}`);
+      await axios.delete(`/user/booking/${bookingId}`);
 
-        const newBooking = await searchBooking(authUser.id);
-        setBookingData(newBooking);
-      }
+      const newBooking = await searchBooking(authUser.id);
+      setBookingData(newBooking);
     } catch (err) {
       console.log(err);
     }
@@ -36,8 +34,7 @@ export default function ReservationPage() {
     };
 
     fetchData();
-  }, []);
-
+  }, [authUser, searchBooking]);
   return (
     <div>
       <h1>Reservation Page</h1>

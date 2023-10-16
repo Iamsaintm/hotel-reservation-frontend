@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import axios from "../config/axios";
 
 export const SearchContext = createContext();
@@ -14,11 +14,15 @@ export default function SearchContextProvider({ children }) {
   };
 
   // useCallback
-  const searchBooking = async () => {
-    const res = await axios.get("/user/booking");
-    setBookingRoom(res.data);
-    return res.data;
-  };
+  const searchBooking = useCallback(async () => {
+    try {
+      const res = await axios.get("/user/booking");
+      setBookingRoom(res.data);
+      return res.data;
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }, []);
 
   return (
     <SearchContext.Provider
