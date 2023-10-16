@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { toast } from "react-toastify";
@@ -12,24 +12,22 @@ export default function SearchRoom() {
     guestLimit: "",
   });
 
-  const { searchVacantRoom, vacantRoom } = useSearch();
+  const { searchVacantRoom } = useSearch();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (vacantRoom) {
-      navigate("/room", { state: { roomData: vacantRoom } });
-      console.log(input);
-      console.log(vacantRoom);
-    }
-  }, [vacantRoom, navigate]);
-
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
-    searchVacantRoom(input).catch((err) => {
+    try {
+      const res = await searchVacantRoom(input);
+
+      if (res) {
+        navigate("/room", { state: { roomData: res, reservationData: input } });
+      }
+    } catch (err) {
       toast.error(err.response?.data.message);
-    });
+    }
   };
+
   return (
     <form
       className="flex gap-4 items-center justify-center"

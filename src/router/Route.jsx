@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage";
 import RoomPage from "../pages/RoomPage";
 import BookingPage from "../pages/BookingPage";
 import ReservationPage from "../pages/ReservationPage";
+import Authenticated from "../features/auth/Authenticated";
 
 const router = createBrowserRouter([
   {
@@ -37,9 +38,9 @@ const router = createBrowserRouter([
       {
         path: "reservation/:userId",
         element: (
-          <div>
+          <Authenticated>
             <ReservationPage />
-          </div>
+          </Authenticated>
         ),
       },
     ],

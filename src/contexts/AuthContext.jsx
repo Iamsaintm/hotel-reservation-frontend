@@ -18,7 +18,6 @@ export default function AuthContextProvider({ children }) {
         .get("/auth/me")
         .then((res) => {
           setAuthUser(res.data.user);
-          console.log(authUser);
         })
         .finally(() => {
           setInitialLoading(false);
