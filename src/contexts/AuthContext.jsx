@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export default function AuthContextProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [showLoginForm, setShowLoginForm] = useState(false);
 
   useEffect(() => {
     if (getAccessToken()) {
@@ -31,6 +32,7 @@ export default function AuthContextProvider({ children }) {
     const res = await axios.post("/auth/login", credential);
     addAccessToken(res.data.accessToken);
     setAuthUser(res.data.user);
+    return res.data;
   };
 
   const register = async (registerInputObject) => {
@@ -58,6 +60,8 @@ export default function AuthContextProvider({ children }) {
         register,
         logout,
         updateProfile,
+        showLoginForm,
+        setShowLoginForm,
       }}
     >
       {children}

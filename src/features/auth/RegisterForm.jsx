@@ -31,7 +31,7 @@ const validateRegister = (input) => {
   }
 };
 
-export default function RegisterForm({ logIn, setIsOpen }) {
+export default function RegisterForm({ logIn, setIsOpen, setIsOpenForm }) {
   const [input, setInput] = useState({
     firstName: "",
     lastName: "",
@@ -62,12 +62,16 @@ export default function RegisterForm({ logIn, setIsOpen }) {
       });
   };
   return (
-    <form
-      className="grid grid-cols-2 gap-x-3 gap-y-4"
-      onSubmit={handleSubmitForm}
-    >
+    <form className="grid grid-cols-2 gap-x-3 gap-y-4">
       Sign Up
-      <Button onClick={logIn} className={"text-white"}>
+      <Button
+        type={"button"}
+        onClick={() => {
+          logIn();
+          setIsOpenForm(true);
+        }}
+        className={"text-white"}
+      >
         Log In
       </Button>
       <div>
@@ -136,8 +140,8 @@ export default function RegisterForm({ logIn, setIsOpen }) {
       </div>
       <div className="mx-auto col-span-full">
         <button
-          type="submit"
           className="bg-green-500 rounded-lg text-white px-3 py-1.5 font-bold min-w-[10rem]"
+          onClick={handleSubmitForm}
         >
           Sign up
         </button>

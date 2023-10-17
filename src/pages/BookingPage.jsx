@@ -17,6 +17,7 @@ function BookingPage() {
     userId: authUser.id,
     roomId: roomData.id,
     guest: reservationData.guestLimit,
+    roomImage: roomData.roomImage,
   });
 
   const handleSubmitForm = async (e) => {
@@ -46,7 +47,8 @@ function BookingPage() {
             <p>Start Date: {reservationData.startDate}</p>
             <p>End Date: {reservationData.endDate}</p>
             <p>Guest: {reservationData.guestLimit}</p>
-            <Button type="submit">Booking Room</Button>
+            <img src={roomData.roomImage} alt="Rooms" />
+            <Button>Booking Room</Button>
           </div>
         ) : (
           <p>No room data available for booking.</p>

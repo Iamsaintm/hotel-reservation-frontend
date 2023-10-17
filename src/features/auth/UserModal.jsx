@@ -10,15 +10,16 @@ export default function UserModal({
   logout,
   activeForm,
   setActiveForm,
+  setIsOpenForm,
 }) {
-  const openForm = (formName) => {
-    setActiveForm(formName);
-  };
-
   return (
     <div>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setActiveForm(null);
+          setIsOpenForm(false);
+        }}
         className="flex bg-orange-500 rounded-full p-0.5 gap-2"
       >
         <Bar3 />
@@ -32,8 +33,10 @@ export default function UserModal({
                 activeForm === "signUp" ? "text-orange-500" : ""
               }`}
               onClick={() => {
-                openForm("signUp");
+                setActiveForm("signUp");
+                setIsOpenForm(true);
               }}
+              data-form="signUp"
             >
               Sign Up
             </div>
@@ -43,8 +46,10 @@ export default function UserModal({
                 activeForm === "logIn" ? "text-orange-500" : ""
               }`}
               onClick={() => {
-                openForm("logIn");
+                setActiveForm("logIn");
+                setIsOpenForm(true);
               }}
+              data-form="logIn"
             >
               Log In
             </div>
@@ -58,20 +63,22 @@ export default function UserModal({
             <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
               {activeForm === "signUp" ? (
                 <SignUpForm
-                  logIn={() => openForm("logIn")}
+                  logIn={() => setActiveForm("logIn")}
                   setIsOpen={setIsOpen}
+                  setIsOpenForm={setIsOpenForm}
                 />
               ) : (
                 <LogInForm
-                  signUp={() => openForm("signUp")}
+                  signUp={() => setActiveForm("signUp")}
                   setIsOpen={setIsOpen}
+                  setIsOpenForm={setIsOpenForm}
                 />
               )}
             </div>
           )}
       </div>
 
-      {isOpen && authUser && (
+      {isOpen && authUser.role === "USER" && (
         <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
           <Link
             to={`/reservation/${authUser.id}`}
@@ -79,6 +86,34 @@ export default function UserModal({
           >
             <div className="flex gap-4 p-2 cursor-pointer hover-bg-gray-100 rounded-xl justify-center">
               Reservation
+            </div>
+          </Link>
+          <hr className="m-2 border" />
+          <div
+            className="flex gap-4 p-2 cursor-pointer hover-bg-gray-100 rounded-xl justify-center"
+            onClick={() => {
+              logout();
+              setIsOpen(false);
+            }}
+          >
+            Log Out
+          </div>
+        </div>
+      )}
+      {isOpen && authUser.role === "ADMIN" && (
+        <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
+          <Link
+            to={`/reservation/${authUser.id}`}
+            onClick={() => setIsOpen(false)}
+          >
+            <div className="flex gap-4 p-2 cursor-pointer hover-bg-gray-100 rounded-xl justify-center">
+              Reservation
+            </div>
+          </Link>
+          <hr className="m-2 border" />
+          <Link to={`/admin`} onClick={() => setIsOpen(false)}>
+            <div className="flex gap-4 p-2 cursor-pointer hover-bg-gray-100 rounded-xl justify-center">
+              Admin Reservation
             </div>
           </Link>
           <hr className="m-2 border" />

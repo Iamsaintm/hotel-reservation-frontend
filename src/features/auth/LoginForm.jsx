@@ -4,7 +4,7 @@ import LoginInput from "./LoginInput";
 import { useAuth } from "../../hooks/use-auth";
 import Button from "../../components/Button";
 
-export default function LoginForm({ signUp, setIsOpen }) {
+export default function LoginForm({ signUp, setIsOpen, setIsOpenForm }) {
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -15,15 +15,26 @@ export default function LoginForm({ signUp, setIsOpen }) {
   const handleSubmitForm = (e) => {
     e.preventDefault();
     login(input)
-      .then(setIsOpen(false))
-      .catch((err) => {
-        toast.error(err.response?.data.message);
+      .then((res) => {
+        if (res) {
+          setIsOpen(false);
+        }
+      })
+      .catch(() => {
+        toast.error("Email or password incorrect");
       });
   };
 
   return (
-    <form className="grid gap-4" onSubmit={handleSubmitForm}>
-      <Button onClick={signUp} className={"text-white"}>
+    <form className="grid gap-4">
+      <Button
+        type={"button"}
+        onClick={() => {
+          signUp();
+          setIsOpenForm(true);
+        }}
+        className={"text-white"}
+      >
         Sign Up
       </Button>
       Log In
@@ -42,7 +53,10 @@ export default function LoginForm({ signUp, setIsOpen }) {
           return setInput({ ...input, password: e.target.value });
         }}
       />
-      <button className="bg-blue-500 text-white w-full rounded-md text-xl font-bold py-2.5">
+      <button
+        className="bg-blue-500 text-white w-full rounded-md text-xl font-bold py-2.5"
+        onClick={handleSubmitForm}
+      >
         Log in
       </button>
     </form>

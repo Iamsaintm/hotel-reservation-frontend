@@ -5,11 +5,11 @@ import { toast } from "react-toastify";
 import { useSearch } from "../../hooks/use-search";
 import { useNavigate } from "react-router-dom";
 
-export default function SearchRoom() {
+export default function SearchRoom({ startDate, endDate, guestLimit }) {
   const [input, setInput] = useState({
-    startDate: "",
-    endDate: "",
-    guestLimit: "",
+    startDate: startDate || "",
+    endDate: endDate || "",
+    guestLimit: guestLimit || "",
   });
 
   const { searchVacantRoom } = useSearch();
@@ -57,9 +57,7 @@ export default function SearchRoom() {
           return setInput({ ...input, guestLimit: e.target.value });
         }}
       />
-      <Button type="submit" className={"h-10 flex "}>
-        Click me
-      </Button>
+      <Button className={"h-10 flex "}>Click me</Button>
     </form>
   );
 }
