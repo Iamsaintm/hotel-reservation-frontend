@@ -6,7 +6,13 @@ export const SearchContext = createContext();
 export default function SearchContextProvider({ children }) {
   const [vacantRoom, setVacantRoom] = useState(null);
   const [bookingRoom, setBookingRoom] = useState(null);
+  const [getUser, setGetUser] = useState(null);
 
+  const searchUser = async () => {
+    const res = await axios.get("/admin/user");
+    setGetUser(res.data);
+    return res.data;
+  };
   const searchVacantRoom = async (room) => {
     const res = await axios.get("/user/room", { params: room });
     setVacantRoom(res.data);
@@ -24,6 +30,24 @@ export default function SearchContextProvider({ children }) {
     }
   }, []);
 
+  const searchAllRoom = async () => {
+    const res = await axios.get("/admin/room");
+    setVacantRoom(res.data);
+    return res.data;
+  };
+
+  const searchAllRoomType = async () => {
+    const res = await axios.get("/admin/room/roomType");
+    setVacantRoom(res.data);
+    return res.data;
+  };
+
+  const searchAllBooking = async () => {
+    const res = await axios.get("/admin/booking");
+    setVacantRoom(res.data);
+    return res.data;
+  };
+
   return (
     <SearchContext.Provider
       value={{
@@ -31,6 +55,11 @@ export default function SearchContextProvider({ children }) {
         searchVacantRoom,
         searchBooking,
         bookingRoom,
+        searchAllRoom,
+        searchAllRoomType,
+        searchAllBooking,
+        searchUser,
+        getUser,
       }}
     >
       {children}

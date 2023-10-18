@@ -36,7 +36,6 @@ export default function UserModal({
                 setActiveForm("signUp");
                 setIsOpenForm(true);
               }}
-              data-form="signUp"
             >
               Sign Up
             </div>
@@ -49,7 +48,6 @@ export default function UserModal({
                 setActiveForm("logIn");
                 setIsOpenForm(true);
               }}
-              data-form="logIn"
             >
               Log In
             </div>
