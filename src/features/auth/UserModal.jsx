@@ -76,7 +76,7 @@ export default function UserModal({
           )}
       </div>
 
-      {isOpen && authUser.role === "USER" && (
+      {isOpen && authUser?.role === "USER" && (
         <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
           <Link
             to={`/reservation/${authUser.id}`}
@@ -98,7 +98,7 @@ export default function UserModal({
           </div>
         </div>
       )}
-      {isOpen && authUser.role === "ADMIN" && (
+      {isOpen && authUser?.role === "ADMIN" && (
         <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
           <Link
             to={`/reservation/${authUser.id}`}

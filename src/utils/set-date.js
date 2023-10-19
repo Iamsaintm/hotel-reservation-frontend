@@ -1,4 +1,4 @@
-export const formatStartDate = (date) => {
+export const formatDate = (date) => {
   const formattedDate = new Date(date).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",

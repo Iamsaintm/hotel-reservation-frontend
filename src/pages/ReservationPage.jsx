@@ -3,7 +3,7 @@ import axios from "../config/axios";
 import { useSearch } from "../hooks/use-search";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
-import { formatStartDate } from "../utils/set-date";
+import { formatDate } from "../utils/set-date";
 
 export default function ReservationPage() {
   const { authUser } = useAuth();
@@ -47,8 +47,8 @@ export default function ReservationPage() {
               <p>Last Name:{authUser.lastName}</p>
               <p>Room Type: {booking.roomType}</p>
               <p>Room Price: {booking.totalPrice}</p>
-              <p>Start Date: {formatStartDate(booking.startDate)}</p>
-              <p>End Date: {formatStartDate(booking.endDate)}</p>
+              <p>Start Date: {formatDate(booking.startDate)}</p>
+              <p>End Date: {formatDate(booking.endDate)}</p>
               <Button onClick={() => handleClickCancel(booking.id)}>
                 Cancel Booking
               </Button>

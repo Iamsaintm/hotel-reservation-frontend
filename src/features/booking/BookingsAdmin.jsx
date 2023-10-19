@@ -1,13 +1,64 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { useSearch } from "../../hooks/use-search";
+import axios from "../../config/axios";
+import { toast } from "react-toastify";
+import AdminAction from "./AdminAction";
+import { formatDate } from "../../utils/set-date";
 
-export default function BookingsAdmin({ deleteBooking }) {
+function BookingDetails({
+  booking,
+  users,
+  rooms,
+  handleDelete,
+  fetchBookingData,
+}) {
+  const user = users[booking.userId];
+  const room = rooms[booking.roomId];
+  return (
+    <div key={booking.id}>
+      <p>ID: {booking.id}</p>
+      <p>Start Date: {formatDate(booking.startDate)}</p>
+      <p>End Date: {formatDate(booking.endDate)}</p>
+      <p>User ID: {booking.userId}</p>
+      <p>Payment: {booking.isPayment}</p>
+      <p>
+        User Name: {user?.firstName} {user?.lastName}
+      </p>
+      <p>User Phone: {user?.phoneNumber}</p>
+      <p>User Email: {user?.email}</p>
+      <p>Room ID: {booking.roomId}</p>
+      <p>Room Number: {room?.roomNumber}</p>
+      <p>Room Type: {room?.roomType}</p>
+      <p>Room Price: {room?.roomPrice}</p>
+      {booking.isPayment === "PENDING" && (
+        <AdminAction
+          bookingId={booking.id}
+          fetchBookingData={fetchBookingData}
+        />
+      )}
+
+      <Button onClick={() => handleDelete(booking.id)}>Delete</Button>
+    </div>
+  );
+}
+
+export default function BookingsAdmin() {
   const { searchAllBooking, searchAllRoom, searchAllRoomType, searchUser } =
     useSearch();
   const [bookings, setBookings] = useState([]);
   const [rooms, setRooms] = useState({});
   const [users, setUsers] = useState({});
+
+  const deleteBooking = async (bookingId) => {
+    try {
+      await axios.delete(`/admin/booking/${bookingId}`);
+      toast.success("booking delete successfully");
+    } catch (error) {
+      console.error("Error creating booking: ", error);
+      toast.error("Error creating booking");
+    }
+  };
 
   const fetchRoomData = async () => {
     try {
@@ -51,7 +102,7 @@ export default function BookingsAdmin({ deleteBooking }) {
           email: user.email,
         };
         return acc;
-      });
+      }, {});
       setUsers(usersInfo);
     } catch (error) {
       console.error("Error fetching user data: ", error);
@@ -75,7 +126,6 @@ export default function BookingsAdmin({ deleteBooking }) {
 
   const handleDelete = async (bookingId) => {
     try {
-      console.log(bookingId);
       await deleteBooking(bookingId);
       fetchBookingData();
     } catch (error) {
@@ -86,25 +136,14 @@ export default function BookingsAdmin({ deleteBooking }) {
   return (
     <div>
       {bookings.map((booking) => (
-        <div key={booking.id}>
-          <p>ID: {booking.id}</p>
-          <p>Start Date: {booking.startDate}</p>
-          <p>End Date: {booking.endDate}</p>
-          <p>User ID: {booking.userId}</p>
-          <p>
-            User Name: {users[booking.userId]?.firstName}{" "}
-            {users[booking.userId]?.lastName}
-          </p>
-          <p>User Phone: {users[booking.userId]?.phoneNumber}</p>
-          <p>User Email: {users[booking.userId]?.email}</p>
-          <p>Room ID: {booking.roomId}</p>
-          <p>Room Number: {rooms[booking.roomId]?.roomNumber}</p>
-          <p>Room Type: {rooms[booking.roomId]?.roomType}</p>
-          <p>Room Price: {rooms[booking.roomId]?.roomPrice}</p>
-
-          <Button>Edit</Button>
-          <Button onClick={() => handleDelete(booking.id)}>Delete</Button>
-        </div>
+        <BookingDetails
+          booking={booking}
+          users={users}
+          rooms={rooms}
+          handleDelete={handleDelete}
+          key={booking.id}
+          fetchBookingData={fetchBookingData}
+        />
       ))}
     </div>
   );
