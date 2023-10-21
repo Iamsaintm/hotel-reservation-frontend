@@ -35,6 +35,8 @@ export default function ReservationPage() {
 
     fetchData();
   }, [authUser, searchBooking]);
+
+  console.log(bookingData);
   return (
     <div>
       <h1>Reservation Page</h1>
@@ -45,7 +47,7 @@ export default function ReservationPage() {
             <div key={booking.id}>
               <p>First Name:{authUser.firstName}</p>
               <p>Last Name:{authUser.lastName}</p>
-              <p>Room Type: {booking.roomType}</p>
+              <p>Room Type: {booking.roomsId.roomType.roomType}</p>
               <p>Room Price: {booking.totalPrice}</p>
               <p>Start Date: {formatDate(booking.startDate)}</p>
               <p>End Date: {formatDate(booking.endDate)}</p>

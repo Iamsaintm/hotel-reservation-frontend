@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import RoomCreateForm from "./RoomCreateForm";
 
 export default function RoomAdmin() {
-  const { searchAllRoom, searchAllRoomType } = useSearch();
+  const { searchAllRoom } = useSearch();
   const [room, setRoom] = useState([]);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -15,8 +15,8 @@ export default function RoomAdmin() {
   const createRoom = async (data) => {
     try {
       await axios.post("/admin/room", data);
-
       toast.success("Room created successfully");
+      fetchRoomData();
 
       setShowCreateForm(false);
     } catch (error) {
@@ -31,6 +31,7 @@ export default function RoomAdmin() {
 
       const updatedRoomData = await searchAllRoom();
       setRoom(updatedRoomData);
+      fetchRoomData();
 
       toast.success("Room update successfully");
       setShowEditForm(false);
@@ -53,19 +54,7 @@ export default function RoomAdmin() {
   const fetchRoomData = async () => {
     try {
       const roomData = await searchAllRoom();
-      const roomTypeData = await searchAllRoomType();
-
-      const roomTypesMap = {};
-      roomTypeData.forEach((rt) => {
-        roomTypesMap[rt.id] = rt;
-      });
-
-      const roomsWithRoomTypes = roomData.map((room) => ({
-        ...room,
-        roomType: roomTypesMap[room.roomTypeId],
-      }));
-
-      setRoom(roomsWithRoomTypes);
+      setRoom(roomData);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -73,7 +62,7 @@ export default function RoomAdmin() {
 
   useEffect(() => {
     fetchRoomData();
-  }, [showCreateForm, showEditForm]);
+  }, []);
 
   const handleDelete = async (roomId) => {
     try {

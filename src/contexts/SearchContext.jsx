@@ -6,20 +6,13 @@ export const SearchContext = createContext();
 export default function SearchContextProvider({ children }) {
   const [vacantRoom, setVacantRoom] = useState(null);
   const [bookingRoom, setBookingRoom] = useState(null);
-  const [getUser, setGetUser] = useState(null);
 
-  const searchUser = async () => {
-    const res = await axios.get("/admin/user");
-    setGetUser(res.data);
-    return res.data;
-  };
   const searchVacantRoom = async (room) => {
     const res = await axios.get("/user/room", { params: room });
     setVacantRoom(res.data);
     return res.data;
   };
 
-  // useCallback
   const searchBooking = useCallback(async () => {
     try {
       const res = await axios.get("/user/booking");
@@ -58,8 +51,6 @@ export default function SearchContextProvider({ children }) {
         searchAllRoom,
         searchAllRoomType,
         searchAllBooking,
-        searchUser,
-        getUser,
       }}
     >
       {children}

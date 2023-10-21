@@ -35,6 +35,14 @@ function BookingPage() {
     }
   };
 
+  const startDate = new Date(input.startDate);
+  const endDate = new Date(input.endDate);
+
+  const timeDifference = endDate - startDate;
+
+  const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+  const totalPrice = daysDifference * roomData.roomType.roomPrice;
+
   return (
     <div>
       <form onSubmit={handleSubmitForm}>
@@ -44,7 +52,7 @@ function BookingPage() {
             <h2>Selected Room Details</h2>
 
             <p>Room Type: {roomData.roomType.roomType}</p>
-            <p>Room Price: {roomData.roomType.roomPrice}</p>
+            <p>Room Price: {totalPrice}</p>
             <p>Start Date: {reservationData.startDate}</p>
             <p>End Date: {reservationData.endDate}</p>
             <p>Guest: {reservationData.guestLimit}</p>

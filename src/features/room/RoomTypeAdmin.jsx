@@ -39,17 +39,9 @@ export default function RoomTypeAdmin() {
       formData.append("guestLimit", data.guestLimit);
       formData.append("roomPrice", data.roomPrice);
 
-      const res = await axios.patch(
-        `/admin/room/${data.roomTypeId}/roomType`,
-        formData
-      );
-      setRoomTypes((prev) => {
-        const updatedRoomTypes = prev.filter(
-          (roomType) => roomType.id !== res.data.roomType.id
-        );
-        const sortRoomType = [...updatedRoomTypes, res.data.roomType];
-        return sortRoomType.sort((a, b) => a.id - b.id);
-      });
+      await axios.patch(`/admin/room/${data.roomTypeId}/roomType`, formData);
+
+      fetchRoomTypeData();
 
       toast.success("Room type update successfully");
       setShowEditForm(false);
