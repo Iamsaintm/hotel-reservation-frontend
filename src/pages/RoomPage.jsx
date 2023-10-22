@@ -67,15 +67,25 @@ export default function RoomPage() {
       {Object.keys(roomTypeCounts).map((roomType, index) => {
         const roomTypeCount = roomTypeCounts[roomType];
         return (
-          <div key={index} className="flex w-1/2 m-auto">
-            <img src={roomTypeCount.roomImage} alt={roomType} />
-            <p> {roomType}</p>
-            <p>Room Price: {roomTypeCount.roomPrice}</p>
-            <p>Count: {roomTypeCount.count}</p>
-
-            <Button onClick={() => handleButtonClick(roomType)}>
-              Click it
-            </Button>
+          <div key={index} className="flex w-1/2 m-auto justify-between p-4">
+            <img
+              src={roomTypeCount.roomImage}
+              alt={roomType}
+              className="w-3/5"
+            />
+            <div className="flex flex-col text-center justify-evenly">
+              <p> {roomType}</p>
+              <div className="flex flex-col justify-end">
+                <p>Room Price: {roomTypeCount.roomPrice}</p>
+                <p>Count: {roomTypeCount.count}</p>
+              </div>
+              <Button
+                className="h-10 "
+                onClick={() => handleButtonClick(roomType)}
+              >
+                Click it
+              </Button>
+            </div>
           </div>
         );
       })}

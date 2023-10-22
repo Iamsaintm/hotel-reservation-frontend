@@ -4,6 +4,7 @@ import { useSearch } from "../hooks/use-search";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { formatDate } from "../utils/set-date";
+import { DeleteIcon } from "../icon";
 
 export default function ReservationPage() {
   const { authUser } = useAuth();
@@ -36,26 +37,56 @@ export default function ReservationPage() {
     fetchData();
   }, [authUser, searchBooking]);
 
-  console.log(bookingData);
   return (
-    <div>
-      <h1>Reservation Page</h1>
+    <div className="w-2/3 m-auto py-5">
       {bookingData ? (
         <div>
-          <h2>Booking Details</h2>
-          {bookingData.map((booking) => (
-            <div key={booking.id}>
-              <p>First Name:{authUser.firstName}</p>
-              <p>Last Name:{authUser.lastName}</p>
-              <p>Room Type: {booking.roomsId.roomType.roomType}</p>
-              <p>Room Price: {booking.totalPrice}</p>
-              <p>Start Date: {formatDate(booking.startDate)}</p>
-              <p>End Date: {formatDate(booking.endDate)}</p>
-              <Button onClick={() => handleClickCancel(booking.id)}>
-                Cancel Booking
-              </Button>
-            </div>
-          ))}
+          <h1 className="text-xl py-4">Booking Details</h1>
+          <table className="table-auto w-full text-center border border-solid bg-gray-300">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">First name</th>
+                <th className="px-4 py-2">Last name</th>
+                <th className="px-4 py-2">Room Number</th>
+                <th className="px-4 py-2">Room Type</th>
+                <th className="px-4 py-2">Room Price</th>
+                <th className="px-4 py-2">Check-in Date</th>
+                <th className="px-4 py-2">Check-out Date</th>
+                <th className="px-4 py-2">Payment</th>
+
+                <th className="px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookingData.map((booking) => (
+                <tr
+                  key={booking.id}
+                  className="border border-solid bg-gray-200"
+                >
+                  <td className="px-4 py-2">{authUser.firstName}</td>
+                  <td className="px-4 py-2">{authUser.lastName}</td>
+                  <td className="px-4 py-2">{booking.roomsId.roomNumber}</td>
+                  <td className="px-4 py-2">
+                    {booking.roomsId.roomType.roomType}
+                  </td>
+                  <td className="px-4 py-2">
+                    {booking.roomsId.roomType?.roomPrice}
+                  </td>
+                  <td className="px-4 py-2">{formatDate(booking.startDate)}</td>
+                  <td className="px-4 py-2">{formatDate(booking.endDate)}</td>
+                  <td className="px-4 py-2">{booking.isPayment}</td>
+
+                  <td className="px-4 py-2 flex gap-4 justify-center">
+                    {booking.isPayment === "PENDING" && (
+                      <Button onClick={() => handleClickCancel(booking.id)}>
+                        <DeleteIcon />
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
         <p>No booking data available.</p>

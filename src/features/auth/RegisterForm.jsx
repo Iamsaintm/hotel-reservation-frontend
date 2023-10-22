@@ -62,18 +62,8 @@ export default function RegisterForm({ logIn, setIsOpen, setIsOpenForm }) {
       });
   };
   return (
-    <form className="grid grid-cols-2 gap-x-3 gap-y-4">
-      Sign Up
-      <Button
-        type={"button"}
-        onClick={() => {
-          logIn();
-          setIsOpenForm(true);
-        }}
-        className={"text-white"}
-      >
-        Log In
-      </Button>
+    <form className="grid grid-cols-1 gap-x-3 gap-y-4 ">
+      Register
       <div>
         <RegisterInput
           placeholder="First name"
@@ -145,6 +135,16 @@ export default function RegisterForm({ logIn, setIsOpen, setIsOpenForm }) {
         >
           Sign up
         </button>
+        <Button
+          type={"button"}
+          onClick={() => {
+            logIn();
+            setIsOpenForm(true);
+          }}
+          className={"text-white"}
+        >
+          Log In
+        </Button>
       </div>
     </form>
   );

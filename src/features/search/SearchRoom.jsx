@@ -4,6 +4,7 @@ import Input from "../../components/Input";
 import { toast } from "react-toastify";
 import { useSearch } from "../../hooks/use-search";
 import { useNavigate } from "react-router-dom";
+import Joi from "joi";
 
 export default function SearchRoom({ startDate, endDate, guestLimit }) {
   const [input, setInput] = useState({
@@ -12,12 +13,40 @@ export default function SearchRoom({ startDate, endDate, guestLimit }) {
     guestLimit: guestLimit || "",
   });
 
+  const searchSchema = Joi.object({
+    startDate: Joi.date()
+      .greater(Date.now() - 24 * 60 * 60 * 1000)
+      .required(),
+    endDate: Joi.date().greater(Date.now()).required(),
+    guestLimit: Joi.string()
+      .pattern(/^[1-6]{1}$/)
+      .required(),
+  });
+
+  const validateSearch = (input) => {
+    const { error } = searchSchema.validate(input, { abortEarly: false });
+    if (error) {
+      const result = error.details.reduce((acc, el) => {
+        const { message, path } = el;
+        acc[path[0]] = message;
+        return acc;
+      }, {});
+      return result;
+    }
+  };
   const { searchVacantRoom } = useSearch();
 
   const navigate = useNavigate();
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      const validationError = validateSearch(input);
+      if (validationError) {
+        toast.error(
+          "Do not select a date before now. or guest limit is 6 people"
+        );
+        return;
+      }
       const res = await searchVacantRoom(input);
 
       if (res) {
@@ -30,7 +59,7 @@ export default function SearchRoom({ startDate, endDate, guestLimit }) {
 
   return (
     <form
-      className="flex gap-4 items-center justify-center"
+      className="flex gap-4 items-center justify-center z-20"
       onSubmit={handleSubmitForm}
     >
       <Input

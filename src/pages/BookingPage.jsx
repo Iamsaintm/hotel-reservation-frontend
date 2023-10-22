@@ -46,18 +46,18 @@ function BookingPage() {
   return (
     <div>
       <form onSubmit={handleSubmitForm}>
-        <h1>Booking Page</h1>
         {roomData ? (
-          <div>
-            <h2>Selected Room Details</h2>
-
-            <p>Room Type: {roomData.roomType.roomType}</p>
-            <p>Room Price: {totalPrice}</p>
-            <p>Start Date: {reservationData.startDate}</p>
-            <p>End Date: {reservationData.endDate}</p>
-            <p>Guest: {reservationData.guestLimit}</p>
+          <div className="flex gap-8">
             <img src={roomData.roomType.roomImage} alt="Rooms" />
-            <Button>Booking Room</Button>
+            <div>
+              <h2>Selected Room Details</h2>
+              <p>Room Type: {roomData.roomType.roomType}</p>
+              <p>Room Price: {totalPrice}</p>
+              <p>Start Date: {reservationData.startDate}</p>
+              <p>End Date: {reservationData.endDate}</p>
+              <p>Guest: {reservationData.guestLimit}</p>
+              <Button>Booking Room</Button>
+            </div>
           </div>
         ) : (
           <p>No room data available for booking.</p>

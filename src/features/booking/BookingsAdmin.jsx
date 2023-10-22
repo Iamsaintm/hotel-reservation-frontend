@@ -5,6 +5,7 @@ import axios from "../../config/axios";
 import { toast } from "react-toastify";
 import AdminAction from "./AdminAction";
 import { formatDate } from "../../utils/set-date";
+import { DeleteIcon } from "../../icon";
 
 export default function BookingsAdmin() {
   const { searchAllBooking } = useSearch();
@@ -43,30 +44,57 @@ export default function BookingsAdmin() {
   };
 
   return (
-    <div>
-      {bookings.map((booking) => (
-        <div key={booking.id}>
-          <p>Start Date: {formatDate(booking.startDate)}</p>
-          <p>End Date: {formatDate(booking.endDate)}</p>
-          <p>Payment: {booking.isPayment}</p>
-          <p>
-            Name: {booking.usersId.firstName} {booking.usersId.lastName}
-          </p>
-          <p>User Phone: {booking.usersId.phoneNumber}</p>
-          <p>User Email: {booking.usersId.email}</p>
-          <p>Room Number: {booking.roomsId.roomNumber}</p>
-          <p>Room Type: {booking.roomsId.roomType.roomType}</p>
-          <p>Room Price: {booking.roomsId.roomType?.roomPrice}</p>
-          {booking.isPayment === "PENDING" && (
-            <AdminAction
-              bookingId={booking.id}
-              fetchBookingData={fetchBookingData}
-            />
-          )}
+    <div className="w-10/12 m-auto py-20">
+      <h1 className="text-xl py-2">Booking Details</h1>
+      <table className="table-auto w-full text-center border border-solid bg-gray-300">
+        <thead>
+          <tr>
+            <th className="px-4 py-2">ID</th>
+            <th className="px-4 py-2">Name</th>
+            <th className="px-4 py-2">Phone Number</th>
+            <th className="px-4 py-2">Email</th>
+            <th className="px-4 py-2">Check-in Date</th>
+            <th className="px-4 py-2">Check-out Date</th>
+            <th className="px-4 py-2">Room Number</th>
+            <th className="px-4 py-2">Room Type</th>
+            <th className="px-4 py-2">Room Price</th>
+            <th className="px-4 py-2">Payment</th>
+            <th className="px-4 py-2">Maintenance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {bookings.map((booking) => (
+            <tr key={booking.id} className="border border-solid bg-gray-200">
+              <td className="px-4 py-2">{booking.id}</td>
+              <td className="px-4 py-2">
+                {booking.usersId.firstName} {booking.usersId.lastName}
+              </td>
+              <td className="px-4 py-2">{booking.usersId.phoneNumber}</td>
+              <td className="px-4 py-2">{booking.usersId.email}</td>
+              <td className="px-4 py-2">{formatDate(booking.startDate)}</td>
+              <td className="px-4 py-2">{formatDate(booking.endDate)}</td>
 
-          <Button onClick={() => handleDelete(booking.id)}>Delete</Button>
-        </div>
-      ))}
+              <td className="px-4 py-2">{booking.roomsId.roomNumber}</td>
+              <td className="px-4 py-2">{booking.roomsId.roomType.roomType}</td>
+              <td className="px-4 py-2">
+                {booking.roomsId.roomType?.roomPrice}
+              </td>
+              <td className="px-4 py-2">{booking.isPayment}</td>
+              <td className="px-4 py-2 flex gap-4 justify-center">
+                {booking.isPayment === "PENDING" && (
+                  <AdminAction
+                    bookingId={booking.id}
+                    fetchBookingData={fetchBookingData}
+                  />
+                )}
+                <Button onClick={() => handleDelete(booking.id)}>
+                  <DeleteIcon />
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

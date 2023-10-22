@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Button from "../../components/Button";
-import Input from "../../components/Input";
 
 export default function RoomEditForm({
   setShowEditForm,
@@ -28,18 +27,22 @@ export default function RoomEditForm({
     roomTypeToIdMapping[roomItem.roomType.roomType] = roomItem.roomTypeId;
   });
   return (
-    <div>
-      <h2>Room Edit Form</h2>
-      <Input
-        text="Room Number"
-        type="text"
-        value={input.roomNumber}
-        onChange={(e) => setInput({ ...input, roomNumber: e.target.value })}
-      />
-      <div>
+    <div className="px-2 py-1 flex flex-col gap-2">
+      <h1 className="text-xl">Room Edit Form</h1>
+      <div className="flex flex-col gap-1">
+        <p>Room Number</p>
+        <input
+          placeholder="Room number"
+          className={`h-10 block w-50 text-black rounded-md px-4 py-3 outline-none border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-500`}
+          value={input.roomNumber}
+          onChange={(e) => setInput({ ...input, roomNumber: e.target.value })}
+        />
+      </div>
+      <div className="flex gap-10 justify-between">
         <label htmlFor="isMaintenance">Maintenance</label>
         <select
           id="isMaintenance"
+          className="border border-black"
           value={input.isMaintenance}
           onChange={(e) =>
             setInput({ ...input, isMaintenance: e.target.value === "true" })
@@ -49,10 +52,11 @@ export default function RoomEditForm({
           <option value={false}>False</option>
         </select>
       </div>
-      <div>
+      <div className="flex gap-10 justify-between">
         <label htmlFor="roomType">Room Type</label>
         <select
           id="roomType"
+          className="border border-black"
           value={input.roomType}
           onChange={(e) =>
             setInput({
@@ -69,19 +73,22 @@ export default function RoomEditForm({
           ))}
         </select>
       </div>
-      <Button
-        onClick={() => {
-          return updateRoom({
-            ...input,
-            isMaintenance: input.isMaintenance === "true" ? true : false,
-            roomTypeId: +input.roomTypeId,
-          });
-        }}
-      >
-        Update Room
-      </Button>
-
-      <Button onClick={() => setShowEditForm(false)}>Cancel</Button>
+      <div className="flex justify-around pt-2">
+        <Button
+          onClick={() => {
+            return updateRoom({
+              ...input,
+              isMaintenance: input.isMaintenance === "true" ? true : false,
+              roomTypeId: +input.roomTypeId,
+            });
+          }}
+        >
+          Update Room
+        </Button>
+        <Button className="bg-red-500" onClick={() => setShowEditForm(false)}>
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Button from "../../components/Button";
-import Input from "../../components/Input";
 
 export default function RoomCreateForm({
   setShowCreateForm,
@@ -14,30 +13,38 @@ export default function RoomCreateForm({
     roomTypeId: "",
   });
 
-  const uniqueRoomTypes = new Set();
+  const roomTypes = [];
 
   room.forEach((roomItem) => {
-    uniqueRoomTypes.add(roomItem.roomType.roomType);
+    const roomType = roomItem.roomType.roomType;
+    if (!roomTypes.includes(roomType)) {
+      roomTypes.push(roomType);
+    }
   });
 
-  const roomTypeToIdMapping = {};
+  const roomTypeId = {};
 
   room.forEach((roomItem) => {
-    roomTypeToIdMapping[roomItem.roomType.roomType] = roomItem.roomTypeId;
+    roomTypeId[roomItem.roomType.roomType] = roomItem.roomTypeId;
   });
+
   return (
-    <div>
-      <h2>Room Create Form</h2>
-      <Input
-        text="Room Number"
-        type="text"
-        value={input.roomNumber}
-        onChange={(e) => setInput({ ...input, roomNumber: e.target.value })}
-      />
-      <div>
+    <div className="px-2 py-1 flex flex-col gap-2">
+      <h1 className="text-xl">Room Create Form</h1>
+      <div className="flex flex-col gap-1">
+        <p>Room Number</p>
+        <input
+          placeholder="Room number"
+          className={`h-10 block w-50 text-black rounded-md px-4 py-3 outline-none border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-500`}
+          value={input.roomNumber}
+          onChange={(e) => setInput({ ...input, roomNumber: e.target.value })}
+        />
+      </div>
+      <div className="flex gap-8 justify-between">
         <label htmlFor="isMaintenance">Maintenance</label>
         <select
           id="isMaintenance"
+          className="border border-black"
           value={input.isMaintenance}
           onChange={(e) =>
             setInput({ ...input, isMaintenance: e.target.value === "true" })
@@ -48,35 +55,40 @@ export default function RoomCreateForm({
           <option value={false}>False</option>
         </select>
       </div>
-      <div>
+      <div className="flex gap-10 justify-between">
         <label htmlFor="roomType">Room Type</label>
         <select
           id="roomType"
+          className="border border-black"
           value={input.roomType}
           onChange={(e) =>
             setInput({
               ...input,
               roomType: e.target.value,
-              roomTypeId: roomTypeToIdMapping[e.target.value],
+              roomTypeId: roomTypeId[e.target.value],
             })
           }
         >
           <option value="">Select a room type</option>
-          {Array.from(uniqueRoomTypes).map((roomType) => (
+          {roomTypes.map((roomType) => (
             <option key={roomType} value={roomType}>
               {roomType}
             </option>
           ))}
         </select>
       </div>
-      <Button
-        onClick={() => {
-          return createRoom(input);
-        }}
-      >
-        Create Room
-      </Button>
-      <Button onClick={() => setShowCreateForm(false)}>Cancel</Button>
+      <div className="flex justify-around pt-2">
+        <Button
+          onClick={() => {
+            return createRoom(input);
+          }}
+        >
+          Create Room
+        </Button>
+        <Button className="bg-red-500" onClick={() => setShowCreateForm(false)}>
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 }

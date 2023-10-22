@@ -5,6 +5,7 @@ import axios from "../../config/axios";
 import RoomEditForm from "./RoomEditForm";
 import { toast } from "react-toastify";
 import RoomCreateForm from "./RoomCreateForm";
+import { DeleteIcon, EditIcon } from "../../icon";
 
 export default function RoomAdmin() {
   const { searchAllRoom } = useSearch();
@@ -33,21 +34,21 @@ export default function RoomAdmin() {
       setRoom(updatedRoomData);
       fetchRoomData();
 
-      toast.success("Room update successfully");
+      toast.success("Room updated successfully");
       setShowEditForm(false);
     } catch (error) {
-      console.error("Error update room: ", error);
-      toast.error("Error update room");
+      console.error("Error updating room: ", error);
+      toast.error("Error updating room");
     }
   };
 
   const deleteRoom = async (roomId) => {
     try {
       await axios.delete(`/admin/room/${roomId}`);
-      toast.success("Room delete successfully");
+      toast.success("Room deleted successfully");
     } catch (error) {
-      console.error("Error delete room: ", error);
-      toast.error("Error delete room");
+      console.error("Error deleting room: ", error);
+      toast.error("Error deleting room");
     }
   };
 
@@ -72,37 +73,59 @@ export default function RoomAdmin() {
       console.error("Error deleting room: ", error);
     }
   };
+
   return (
-    <div className="room-admin-container">
-      <Button
-        onClick={() => {
-          setShowCreateForm(true);
-        }}
-      >
-        Add Room
-      </Button>
-      {room.map((room) => (
-        <div key={room.id}>
-          <p>ID: {room.id}</p>
-          <p>Is Maintenance: {room.isMaintenance ? "Yes" : "No"}</p>
-          <p>Room Number: {room.roomNumber}</p>
-          <p>Room Type ID: {room.roomTypeId}</p>
-          <p>Room Type: {room.roomType?.roomType}</p>
-          <p>Room Price: {room.roomType?.roomPrice}</p>
-          <p>Guest: {room.roomType?.guestLimit}</p>
-          <Button
-            onClick={() => {
-              setShowEditForm(room);
-            }}
-          >
-            Edit
-          </Button>
-          <Button onClick={() => handleDelete(room.id)}>Delete</Button>
-        </div>
-      ))}
+    <div className="py-4 w-3/4 m-auto">
+      <div className="flex justify-end py-3 px-2">
+        <Button
+          onClick={() => {
+            setShowCreateForm(true);
+          }}
+        >
+          Add Room
+        </Button>
+      </div>
+      <h1 className="text-xl py-2">Rooms details</h1>
+      <table className="table-auto w-full text-center border border-solid bg-gray-300">
+        <thead>
+          <tr>
+            <th className="px-4 py-2">ID</th>
+            <th className="px-4 py-2">Room Number</th>
+            <th className="px-4 py-2">Room Type</th>
+            <th className="px-4 py-2">Room Price</th>
+            <th className="px-4 py-2">Guest</th>
+            <th className="px-4 py-2">Maintenance</th>
+            <th className="px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {room.map((room) => (
+            <tr key={room.id} className="border border-solid bg-gray-200">
+              <td className="px-4 py-2">{room.id}</td>
+              <td className="px-4 py-2">{room.roomNumber}</td>
+              <td className="px-4 py-2">{room.roomType?.roomType}</td>
+              <td className="px-4 py-2">{room.roomType?.roomPrice}</td>
+              <td className="px-4 py-2">{room.roomType?.guestLimit}</td>
+              <td className="px-4 py-2">{room.isMaintenance ? "Yes" : "No"}</td>
+              <td className="px-4 py-2 flex gap-8 justify-center">
+                <Button
+                  onClick={() => {
+                    setShowEditForm(room);
+                  }}
+                >
+                  <EditIcon />
+                </Button>
+                <Button onClick={() => handleDelete(room.id)}>
+                  <DeleteIcon />
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {showCreateForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-4 shadow-lg">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+          <div className="bg-white p-4 shadow-lg rounded-md w-1/3">
             <RoomCreateForm
               setShowCreateForm={setShowCreateForm}
               createRoom={createRoom}
@@ -113,7 +136,7 @@ export default function RoomAdmin() {
       )}
       {showEditForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-4 shadow-lg">
+          <div className="bg-white p-4 shadow-lg rounded-md w-1/3">
             <RoomEditForm
               setShowEditForm={setShowEditForm}
               updateRoom={updateRoom}
