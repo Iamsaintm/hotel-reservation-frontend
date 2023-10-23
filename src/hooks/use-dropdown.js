@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 function useDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const dropDownEl = useRef(null); // {current: null}
+  const dropDownEl = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {

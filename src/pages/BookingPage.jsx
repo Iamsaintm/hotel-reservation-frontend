@@ -49,7 +49,7 @@ function BookingPage() {
         {roomData ? (
           <div className="flex flex-col gap-3 p-4">
             <div className="mx-auto">
-              <div className="relative flex h-72 w-[900px] items-start gap-4 overflow-hidden rounded-lg shadow-lg ">
+              <div className="relative flex h-72 w-[1000px] items-start gap-4 overflow-hidden rounded-lg shadow-lg ">
                 <div className="flex-1">
                   <img src={roomData.roomType.roomImage} alt="Rooms" />
                 </div>
@@ -66,10 +66,10 @@ function BookingPage() {
                       </p>
 
                       <p className="text-base">
-                        Start Date: {reservationData.startDate}
+                        Check-in Date: {reservationData.startDate}
                       </p>
                       <p className="text-base">
-                        End Date: {reservationData.endDate}
+                        Check-out Date: {reservationData.endDate}
                       </p>
                     </div>
                     <div className="flex justify-end py-16">

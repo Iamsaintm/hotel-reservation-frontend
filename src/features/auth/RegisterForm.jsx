@@ -64,7 +64,10 @@ export default function RegisterForm({ logIn, setIsOpen, setIsOpenForm }) {
     <form className="grid grid-cols-1 gap-x-3 gap-y-4 ">
       <div className="flex justify-around gap-52">
         <div className="text-2xl text-center">Register</div>
-        <button onClick={() => setIsOpen(false)} className="text-2xl">
+        <button
+          onClick={() => setIsOpen(false)}
+          className="text-lg text-gray-400"
+        >
           X
         </button>
       </div>
