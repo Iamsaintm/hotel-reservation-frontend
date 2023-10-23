@@ -4,7 +4,7 @@ import Logo from "./logo";
 
 export default function Header() {
   return (
-    <header className="grid grid-cols-2 px-16 bg-black shadow-lg sticky top-0 z-30 items-center">
+    <header className="grid grid-cols-2 px-20 bg-black shadow-lg sticky top-0 z-30 items-center h-12">
       <div className="justify-self-start flex flex-col">
         <Link to="/">
           <Logo />

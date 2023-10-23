@@ -5,10 +5,11 @@ export default function Input({
   onChange,
   text,
   className,
+  textClassName,
 }) {
   return (
     <div className="flex flex-col">
-      <p className="text-center">{text}</p>
+      <p className={`text-center ${textClassName}`}>{text}</p>
       <input
         type={type}
         placeholder={placeholder}

@@ -42,9 +42,9 @@ export default function ReservationPage() {
       {bookingData ? (
         <div>
           <h1 className="text-xl py-4">Booking Details</h1>
-          <table className="table-auto w-full text-center border border-solid bg-gray-300">
+          <table className="table-auto w-full text-center border border-solid bg-blue-600">
             <thead>
-              <tr>
+              <tr className="text-white">
                 <th className="px-4 py-2">First name</th>
                 <th className="px-4 py-2">Last name</th>
                 <th className="px-4 py-2">Room Number</th>

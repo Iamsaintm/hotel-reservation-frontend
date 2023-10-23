@@ -44,19 +44,40 @@ function BookingPage() {
   const totalPrice = daysDifference * roomData.roomType.roomPrice;
 
   return (
-    <div>
+    <div className="py-20">
       <form onSubmit={handleSubmitForm}>
         {roomData ? (
-          <div className="flex gap-8">
-            <img src={roomData.roomType.roomImage} alt="Rooms" />
-            <div>
-              <h2>Selected Room Details</h2>
-              <p>Room Type: {roomData.roomType.roomType}</p>
-              <p>Room Price: {totalPrice}</p>
-              <p>Start Date: {reservationData.startDate}</p>
-              <p>End Date: {reservationData.endDate}</p>
-              <p>Guest: {reservationData.guestLimit}</p>
-              <Button>Booking Room</Button>
+          <div className="flex flex-col gap-3 p-4">
+            <div className="mx-auto">
+              <div className="relative flex h-72 w-[900px] items-start gap-4 overflow-hidden rounded-lg shadow-lg ">
+                <div className="flex-1">
+                  <img src={roomData.roomType.roomImage} alt="Rooms" />
+                </div>
+                <div className="flex-1 py-1">
+                  <div className="flex flex-col gap-3 p-4">
+                    <h1 className="text-xl">Booking Details</h1>
+                    <p className="text-base">
+                      Room Type: {roomData.roomType.roomType}
+                    </p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <p className="text-base">Room Price: {totalPrice}</p>
+                      <p className="text-base">
+                        Guest: {reservationData.guestLimit}
+                      </p>
+
+                      <p className="text-base">
+                        Start Date: {reservationData.startDate}
+                      </p>
+                      <p className="text-base">
+                        End Date: {reservationData.endDate}
+                      </p>
+                    </div>
+                    <div className="flex justify-end py-16">
+                      <Button>Booking Room</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         ) : (

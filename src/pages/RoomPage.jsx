@@ -59,36 +59,57 @@ export default function RoomPage() {
 
   return (
     <div>
-      <SearchRoom
-        startDate={reservationData.startDate}
-        endDate={reservationData.endDate}
-        guestLimit={reservationData.guestLimit}
-      />
-      {Object.keys(roomTypeCounts).map((roomType, index) => {
-        const roomTypeCount = roomTypeCounts[roomType];
-        return (
-          <div key={index} className="flex w-1/2 m-auto justify-between p-4">
-            <img
-              src={roomTypeCount.roomImage}
-              alt={roomType}
-              className="w-3/5"
-            />
-            <div className="flex flex-col text-center justify-evenly">
-              <p> {roomType}</p>
-              <div className="flex flex-col justify-end">
-                <p>Room Price: {roomTypeCount.roomPrice}</p>
-                <p>Count: {roomTypeCount.count}</p>
+      <div className="bg-orange-600 w-1/3 py-3 flex justify-center mx-auto rounded-xl my-4">
+        <SearchRoom
+          startDate={reservationData.startDate}
+          endDate={reservationData.endDate}
+          guestLimit={reservationData.guestLimit}
+        />
+      </div>
+      <div className="py-4 w-3/4 m-auto">
+        <div className="grid grid-cols-2">
+          {Object.keys(roomTypeCounts).map((roomType, index) => {
+            const roomTypeCount = roomTypeCounts[roomType];
+            return (
+              <div key={index} className="flex flex-col m-8">
+                <div className="mx-auto">
+                  <div className="relative flex h-56 w-[600px] max-w-3xl items-start gap-4 overflow-hidden rounded-lg shadow-lg bg-gray-200 ">
+                    <div className="flex-1">
+                      <img
+                        src={roomTypeCount.roomImage}
+                        alt={roomType}
+                        className="h-[250px] w-[300px] object-cover transition-all duration--300 group-hover:opacity-90"
+                      />
+                    </div>
+                    <div className="flex-1 ">
+                      <div className="flex flex-col gap-3 p-4">
+                        <h1 className="text-xl"> Room Detail</h1>
+                        <p className="text-base">Room Type: {roomType}</p>
+                        <p className="text-base">
+                          Room Price: {roomTypeCount.roomPrice}
+                        </p>
+                        <p className="text-base">
+                          Count: {roomTypeCount.count}
+                        </p>
+                        <div className="flex gap-4 justify-end py-3">
+                          <Button
+                            className="h-10 "
+                            onClick={() => {
+                              handleButtonClick(roomType);
+                            }}
+                          >
+                            Booking
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <Button
-                className="h-10 "
-                onClick={() => handleButtonClick(roomType)}
-              >
-                Click it
-              </Button>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

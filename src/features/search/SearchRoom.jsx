@@ -59,11 +59,12 @@ export default function SearchRoom({ startDate, endDate, guestLimit }) {
 
   return (
     <form
-      className="flex gap-4 items-center justify-center z-20"
+      className="flex gap-4 items-end justify-center z-20"
       onSubmit={handleSubmitForm}
     >
       <Input
-        text={"Start Date"}
+        text={"Check-in Date"}
+        textClassName="text-white"
         type="date"
         value={input.startDate}
         onChange={(e) => {
@@ -71,7 +72,8 @@ export default function SearchRoom({ startDate, endDate, guestLimit }) {
         }}
       />
       <Input
-        text={"End Date"}
+        text={"Check-out Date"}
+        textClassName="text-white"
         type="date"
         value={input.endDate}
         onChange={(e) => {
@@ -80,13 +82,15 @@ export default function SearchRoom({ startDate, endDate, guestLimit }) {
       />
       <Input
         text={"Guests"}
+        textClassName="text-white"
+        className="w-32 text-center"
         type="text"
         value={input.guestLimit}
         onChange={(e) => {
           return setInput({ ...input, guestLimit: e.target.value });
         }}
       />
-      <Button className={"h-10 flex "}>Click me</Button>
+      <Button className={"h-10 mb-1 "}>Search</Button>
     </form>
   );
 }

@@ -86,9 +86,9 @@ export default function RoomAdmin() {
         </Button>
       </div>
       <h1 className="text-xl py-2">Rooms details</h1>
-      <table className="table-auto w-full text-center border border-solid bg-gray-300">
+      <table className="table-auto w-full text-center border border-solid bg-blue-600">
         <thead>
-          <tr>
+          <tr className="text-white">
             <th className="px-4 py-2">ID</th>
             <th className="px-4 py-2">Room Number</th>
             <th className="px-4 py-2">Room Type</th>
