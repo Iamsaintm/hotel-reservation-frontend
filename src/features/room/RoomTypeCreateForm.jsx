@@ -81,7 +81,7 @@ export default function RoomTypeCreateForm({
             onChange={(e) => setInput({ ...input, roomPrice: e.target.value })}
           />
         </div>
-        <div className="flex justify-around pt-2">
+        <div className="flex justify-end gap-6  pt-2">
           <Button
             onClick={() => {
               return createRoomType(input);

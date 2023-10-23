@@ -4,7 +4,7 @@ import Button from "../../components/Button";
 export default function RoomCreateForm({
   setShowCreateForm,
   createRoom,
-  room,
+  allRoomType,
 }) {
   const [input, setInput] = useState({
     roomNumber: "",
@@ -15,8 +15,8 @@ export default function RoomCreateForm({
 
   const roomTypes = [];
 
-  room.forEach((roomItem) => {
-    const roomType = roomItem.roomType.roomType;
+  allRoomType.forEach((roomItem) => {
+    const roomType = roomItem.roomType;
     if (!roomTypes.includes(roomType)) {
       roomTypes.push(roomType);
     }
@@ -24,13 +24,13 @@ export default function RoomCreateForm({
 
   const roomTypeId = {};
 
-  room.forEach((roomItem) => {
-    roomTypeId[roomItem.roomType.roomType] = roomItem.roomTypeId;
+  allRoomType.forEach((roomItem) => {
+    roomTypeId[roomItem.roomType] = roomItem.id;
   });
 
   return (
     <div className="px-2 py-1 flex flex-col gap-2">
-      <h1 className="text-xl">Room Create Form</h1>
+      <h1 className="text-2xl">Room Create Form</h1>
       <div className="flex flex-col gap-1">
         <p>Room Number</p>
         <input
@@ -77,7 +77,7 @@ export default function RoomCreateForm({
           ))}
         </select>
       </div>
-      <div className="flex justify-around pt-2">
+      <div className="flex justify-end gap-6  pt-2">
         <Button
           onClick={() => {
             return createRoom(input);

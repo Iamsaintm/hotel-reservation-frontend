@@ -8,11 +8,11 @@ import RoomCreateForm from "./RoomCreateForm";
 import { DeleteIcon, EditIcon } from "../../icon";
 
 export default function RoomAdmin() {
-  const { searchAllRoom } = useSearch();
+  const { searchAllRoom, searchAllRoomType } = useSearch();
   const [room, setRoom] = useState([]);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
-
+  const [allRoomType, setAllRoomType] = useState("");
   const createRoom = async (data) => {
     try {
       await axios.post("/admin/room", data);
@@ -61,8 +61,18 @@ export default function RoomAdmin() {
     }
   };
 
+  const fetchAllRoomType = async () => {
+    try {
+      const roomTypeData = await searchAllRoomType();
+      setAllRoomType(roomTypeData);
+    } catch (error) {
+      console.error("Error fetching booking data: ", error);
+    }
+  };
+
   useEffect(() => {
     fetchRoomData();
+    fetchAllRoomType();
   }, []);
 
   const handleDelete = async (roomId) => {
@@ -73,7 +83,6 @@ export default function RoomAdmin() {
       console.error("Error deleting room: ", error);
     }
   };
-
   return (
     <div className="py-4 w-3/4 m-auto">
       <div className="flex justify-end py-3 px-2">
@@ -125,23 +134,25 @@ export default function RoomAdmin() {
       </table>
       {showCreateForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
-          <div className="bg-white p-4 shadow-lg rounded-md w-1/3">
+          <div className="bg-white p-4 shadow-lg rounded-md w-1/4">
             <RoomCreateForm
               setShowCreateForm={setShowCreateForm}
               createRoom={createRoom}
               room={room}
+              allRoomType={allRoomType}
             />
           </div>
         </div>
       )}
       {showEditForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-4 shadow-lg rounded-md w-1/3">
+          <div className="bg-white p-4 shadow-lg rounded-md w-1/4">
             <RoomEditForm
               setShowEditForm={setShowEditForm}
               updateRoom={updateRoom}
               room={room}
               roomSelect={showEditForm}
+              allRoomType={allRoomType}
             />
           </div>
         </div>

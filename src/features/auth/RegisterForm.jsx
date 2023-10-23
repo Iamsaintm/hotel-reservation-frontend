@@ -4,7 +4,6 @@ import RegisterInput from "./RegisterInput";
 import Joi from "joi";
 import InputErrorMessage from "./InputErrorMessage";
 import { useAuth } from "../../hooks/use-auth";
-import Button from "../../components/Button";
 
 const registerSchema = Joi.object({
   firstName: Joi.string().trim().required(),
@@ -63,7 +62,13 @@ export default function RegisterForm({ logIn, setIsOpen, setIsOpenForm }) {
   };
   return (
     <form className="grid grid-cols-1 gap-x-3 gap-y-4 ">
-      Register
+      <div className="flex justify-around gap-52">
+        <div className="text-2xl text-center">Register</div>
+        <button onClick={() => setIsOpen(false)} className="text-2xl">
+          X
+        </button>
+      </div>
+
       <div>
         <RegisterInput
           placeholder="First name"
@@ -128,23 +133,26 @@ export default function RegisterForm({ logIn, setIsOpen, setIsOpenForm }) {
           <InputErrorMessage message={error.confirmPassword} />
         )}
       </div>
-      <div className="mx-auto col-span-full">
+      <div className="mx-auto col-span-full flex flex-col">
         <button
           className="bg-green-500 rounded-lg text-white px-3 py-1.5 font-bold min-w-[10rem]"
           onClick={handleSubmitForm}
         >
           Sign up
         </button>
-        <Button
-          type={"button"}
-          onClick={() => {
-            logIn();
-            setIsOpenForm(true);
-          }}
-          className={"text-white"}
-        >
-          Log In
-        </Button>
+        <div className="flex justify-center items-center gap-2">
+          <p>{"You have an account?"}</p>
+
+          <button
+            onClick={() => {
+              logIn();
+              setIsOpenForm(true);
+            }}
+            className={"text-blue-500"}
+          >
+            Login here
+          </button>
+        </div>
       </div>
     </form>
   );

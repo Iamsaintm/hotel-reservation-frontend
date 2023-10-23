@@ -86,21 +86,23 @@ export default function UserModal({
         {isOpen &&
           (activeForm === "signUp" || activeForm === "logIn") &&
           !authUser && (
-            <div className="absolute">
-              <div className="w-60 absolute bg-black right-10 translate-y-1 border rounded-xl shadow-xl p-2">
-                {activeForm === "signUp" ? (
-                  <SignUpForm
-                    logIn={() => setActiveForm("logIn")}
-                    setIsOpen={setIsOpen}
-                    setIsOpenForm={setIsOpenForm}
-                  />
-                ) : (
-                  <LogInForm
-                    signUp={() => setActiveForm("signUp")}
-                    setIsOpen={setIsOpen}
-                    setIsOpenForm={setIsOpenForm}
-                  />
-                )}
+            <div className="relative">
+              <div className="fixed inset-0 flex items-center bg-black bg-opacity-50 z-50">
+                <div className="w-96 absolute bg-black right-2/4 translate-x-48 translate-y-1 border rounded-xl shadow-xl p-2">
+                  {activeForm === "signUp" ? (
+                    <SignUpForm
+                      logIn={() => setActiveForm("logIn")}
+                      setIsOpen={setIsOpen}
+                      setIsOpenForm={setIsOpenForm}
+                    />
+                  ) : (
+                    <LogInForm
+                      signUp={() => setActiveForm("signUp")}
+                      setIsOpen={setIsOpen}
+                      setIsOpenForm={setIsOpenForm}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           )}

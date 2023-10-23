@@ -5,7 +5,7 @@ export default function RoomEditForm({
   setShowEditForm,
   updateRoom,
   roomSelect,
-  room,
+  allRoomType,
 }) {
   const [input, setInput] = useState({
     roomId: roomSelect.id,
@@ -15,20 +15,23 @@ export default function RoomEditForm({
     roomTypeId: roomSelect.roomTypeId.toString(),
   });
 
-  const uniqueRoomTypes = new Set();
+  const roomTypes = [];
 
-  room.forEach((roomItem) => {
-    uniqueRoomTypes.add(roomItem.roomType.roomType);
+  allRoomType.forEach((roomItem) => {
+    const roomType = roomItem.roomType;
+    if (!roomTypes.includes(roomType)) {
+      roomTypes.push(roomType);
+    }
   });
 
-  const roomTypeToIdMapping = {};
+  const roomTypeId = {};
 
-  room.forEach((roomItem) => {
-    roomTypeToIdMapping[roomItem.roomType.roomType] = roomItem.roomTypeId;
+  allRoomType.forEach((roomItem) => {
+    roomTypeId[roomItem.roomType] = roomItem.id;
   });
   return (
     <div className="px-2 py-1 flex flex-col gap-2">
-      <h1 className="text-xl">Room Edit Form</h1>
+      <h1 className="text-2xl">Room Edit Form</h1>
       <div className="flex flex-col gap-1">
         <p>Room Number</p>
         <input
@@ -62,18 +65,18 @@ export default function RoomEditForm({
             setInput({
               ...input,
               roomType: e.target.value,
-              roomTypeId: roomTypeToIdMapping[e.target.value],
+              roomTypeId: roomTypeId[e.target.value],
             })
           }
         >
-          {Array.from(uniqueRoomTypes).map((roomType) => (
+          {roomTypes.map((roomType) => (
             <option key={roomType} value={roomType}>
               {roomType}
             </option>
           ))}
         </select>
       </div>
-      <div className="flex justify-around pt-2">
+      <div className="flex justify-end gap-6 pt-2">
         <Button
           onClick={() => {
             return updateRoom({

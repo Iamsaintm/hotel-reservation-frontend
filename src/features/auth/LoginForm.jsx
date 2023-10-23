@@ -2,7 +2,6 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import LoginInput from "./LoginInput";
 import { useAuth } from "../../hooks/use-auth";
-import Button from "../../components/Button";
 
 export default function LoginForm({ signUp, setIsOpen, setIsOpenForm }) {
   const [input, setInput] = useState({
@@ -27,17 +26,16 @@ export default function LoginForm({ signUp, setIsOpen, setIsOpenForm }) {
 
   return (
     <form className="grid gap-4">
-      <Button
-        type={"button"}
-        onClick={() => {
-          signUp();
-          setIsOpenForm(true);
-        }}
-        className={"text-white"}
-      >
-        Sign Up
-      </Button>
-      Log In
+      <div className="flex justify-around items-center gap-52">
+        <div className="text-2xl">Log in</div>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="text-lg text-gray-400"
+        >
+          X
+        </button>
+      </div>
+
       <LoginInput
         placeholder="Email address"
         value={input.email}
@@ -53,12 +51,27 @@ export default function LoginForm({ signUp, setIsOpen, setIsOpenForm }) {
           return setInput({ ...input, password: e.target.value });
         }}
       />
-      <button
-        className="bg-blue-500 text-white w-full rounded-md text-xl font-bold py-2.5"
-        onClick={handleSubmitForm}
-      >
-        Log in
-      </button>
+      <div className="mx-auto col-span-full flex flex-col">
+        <button
+          className="bg-green-500 text-white w-full rounded-md text-xl font-bold py-2.5"
+          onClick={handleSubmitForm}
+        >
+          Log in
+        </button>
+        <div className="flex justify-center items-center gap-2">
+          <p>{"Don't have an account?"}</p>
+
+          <button
+            onClick={() => {
+              signUp();
+              setIsOpenForm(true);
+            }}
+            className={"text-blue-500"}
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
     </form>
   );
 }
