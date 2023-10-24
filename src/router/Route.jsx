@@ -6,6 +6,7 @@ import BookingPage from "../pages/BookingPage";
 import ReservationPage from "../pages/ReservationPage";
 import Authenticated from "../features/auth/Authenticated";
 import AuthenticatedAdmin from "../features/auth/AuthenticatedAdmin";
+import AuthenticatedAdminNotHome from "../features/auth/AuthenticatedAdminNotHome";
 import AdminPage from "../pages/AdminPage";
 
 const router = createBrowserRouter([
@@ -16,26 +17,22 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <div>
+          <AuthenticatedAdminNotHome>
             <HomePage />
-          </div>
+          </AuthenticatedAdminNotHome>
         ),
       },
       {
         path: "room",
         element: (
-          <div>
+          <AuthenticatedAdminNotHome>
             <RoomPage />
-          </div>
+          </AuthenticatedAdminNotHome>
         ),
       },
       {
         path: "booking",
-        element: (
-          <Authenticated>
-            <BookingPage />
-          </Authenticated>
-        ),
+        element: <BookingPage />,
       },
       {
         path: "reservation/:userId",

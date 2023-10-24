@@ -134,7 +134,7 @@ export default function RoomAdmin() {
       </table>
       {showCreateForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
-          <div className="bg-white p-4 shadow-lg rounded-md w-1/4">
+          <div className="bg-white p-4 shadow-lg rounded-md w-4/12">
             <RoomCreateForm
               setShowCreateForm={setShowCreateForm}
               createRoom={createRoom}
@@ -146,7 +146,7 @@ export default function RoomAdmin() {
       )}
       {showEditForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-4 shadow-lg rounded-md w-1/4">
+          <div className="bg-white p-4 shadow-lg rounded-md w-4/12">
             <RoomEditForm
               setShowEditForm={setShowEditForm}
               updateRoom={updateRoom}

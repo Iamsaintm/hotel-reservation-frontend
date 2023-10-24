@@ -85,8 +85,8 @@ export default function RoomTypeAdmin() {
   };
 
   return (
-    <div className="py-4 w-3/4 m-auto">
-      <div className="flex justify-end py-3 px-2">
+    <div className="py-4 w-11/12 m-auto">
+      <div className="flex justify-end py-3 px-8">
         <Button
           onClick={() => {
             setShowCreateForm(true);
@@ -96,11 +96,12 @@ export default function RoomTypeAdmin() {
         </Button>
       </div>
       <h1 className="text-xl py-1">Room type details</h1>
-      <div className="grid grid-cols-2 gap-2 ">
+
+      <div className="grid grid-cols-2 gap-8">
         {roomTypes.map((roomType) => (
-          <div key={roomType.id} className="flex flex-col m-8">
+          <div key={roomType.id} className="">
             <div className="mx-auto">
-              <div className="relative flex h-56 w-[600px] max-w-3xl items-start gap-4 overflow-hidden rounded-lg shadow-lg ">
+              <div className="relative flex h-56 w-[640px] max-w-3xl items-start gap-4 overflow-hidden rounded-lg shadow-lg ">
                 <div className="flex-1">
                   <img
                     src={roomType.roomImage}

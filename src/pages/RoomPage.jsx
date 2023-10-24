@@ -59,14 +59,14 @@ export default function RoomPage() {
 
   return (
     <div>
-      <div className="bg-orange-600 w-1/3 py-3 flex justify-center mx-auto rounded-xl my-4">
+      <div className="bg-orange-600 w-1/2 py-3 flex justify-center mx-auto rounded-xl my-4">
         <SearchRoom
           startDate={reservationData.startDate}
           endDate={reservationData.endDate}
           guestLimit={reservationData.guestLimit}
         />
       </div>
-      <div className="py-4 w-3/4 m-auto">
+      <div className="py-4 w-11/12 m-auto">
         <div className="grid grid-cols-2">
           {Object.keys(roomTypeCounts).map((roomType, index) => {
             const roomTypeCount = roomTypeCounts[roomType];
@@ -91,7 +91,7 @@ export default function RoomPage() {
                         <p className="text-base">
                           Count: {roomTypeCount.count}
                         </p>
-                        <div className="flex gap-4 justify-end py-3">
+                        <div className="flex gap-4 justify-end py-2">
                           <Button
                             className="h-10 "
                             onClick={() => {

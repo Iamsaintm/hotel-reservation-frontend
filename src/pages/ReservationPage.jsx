@@ -38,7 +38,7 @@ export default function ReservationPage() {
   }, [authUser, searchBooking]);
 
   return (
-    <div className="w-2/3 m-auto py-5">
+    <div className="w-10/12 m-auto py-5">
       {bookingData ? (
         <div>
           <h1 className="text-xl py-4">Booking Details</h1>

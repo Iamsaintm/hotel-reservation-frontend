@@ -132,15 +132,6 @@ export default function UserModal({
       )}
       {isOpen && authUser?.role === "ADMIN" && (
         <div className="w-48 absolute bg-black right-0 translate-y-1 border rounded-xl shadow-xl p-2">
-          <Link
-            to={`/reservation/${authUser.id}`}
-            onClick={() => setIsOpen(false)}
-          >
-            <div className="flex gap-4 p-2 cursor-pointer hover:bg-gray-100 rounded-xl justify-center">
-              Reservation
-            </div>
-          </Link>
-          <hr className="m-2 border" />
           <Link to="/admin" onClick={() => setIsOpen(false)}>
             <div className="flex gap-4 p-2 cursor-pointer hover:bg-gray-100 rounded-xl justify-center">
               Admin Reservation
